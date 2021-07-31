@@ -2,6 +2,50 @@
 
 
 ```
+[HttpGet("test")]
+        public ActionResult Test(string input)
+        {
+            var hasUnderscore = input.Contains("_");
+            StringBuilder result = new StringBuilder();
+            if (hasUnderscore)
+            {
+                var hasfacedUnderscore = false;
+                
+                foreach(var ch in input)
+                {
+                    if(hasfacedUnderscore && !ch.Equals('_'))
+                    {
+                        result.Append(char.ToUpper(ch));
+                        hasfacedUnderscore = false;
+                    }
+                    else if(!ch.Equals('_'))
+                    {
+                        result.Append(ch);
+                    }
+                    else if(ch.Equals('_'))
+                    {
+                        hasfacedUnderscore = true;
+                    }
+                }
+                
+            }
+            else
+            {
+                foreach (var ch in input)
+                {
+                    if(char.IsUpper(ch))
+                    {
+                        result.Append('_').Append(char.ToLower(ch));
+                    }
+                    else
+                    {
+                        result.Append(ch);
+                    }
+                }
+            }
+            return Ok(result.ToString());
+        }
+        
 /// <summary>
         /// Convert '_' related variable to Upper and viceversa
         /// p_mkj_ki_jay => pMkjKiJay
